@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>monkeyread | english pronunciation trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-microphone-lines"></i> monkeyread
+            </div>
+            <div id="status-badge" class="status-badge loading">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> initializing app...
+            </div>
+        </header>
+
+        <div class="stats-container hidden" id="stats">
+            <div class="stat">
+                <div class="label">accuracy</div>
+                <div class="value" id="accuracy-val">0%</div>
+            </div>
+            <div class="stat">
+                <div class="label">words read</div>
+                <div class="value" id="words-val">0/0</div>
+            </div>
+        </div>
+
+        <main>
+            <div id="script-box" class="script-box">
+                <div id="words-container" class="words-container">
+                    Loading professional script...
+                </div>
+            </div>
+        </main>
+
+        <div class="controls">
+            <button id="record-btn" class="control-btn" title="Start Reading" disabled>
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button id="next-btn" class="control-btn" title="Next Script">
+                <i class="fa-solid fa-forward"></i>
+            </button>
+        </div>
+
+        <footer>
+            <div class="instruction" id="instruction-text">
+                Please wait while the AI engine loads directly in your browser...
+            </div>
+            <div class="hint">
+                <span class="key">Tip:</span> Click on any <span class="red-text">red word</span> after reading to hear its correct pronunciation.
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
