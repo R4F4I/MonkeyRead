@@ -35,14 +35,14 @@ body {
     overflow: hidden;
 }
 
+/* Update the container to use up to 95% of the screen height */
 .container {
     width: 100%;
     max-width: 1000px;
     padding: 2rem;
-    height: 80vh;
+    height: 95vh; 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 /* ==========================================================================
@@ -110,17 +110,20 @@ header {
 /* ==========================================================================
    Main Script/Reading Box (The Core UI)
    ========================================================================== */
+/*  main will strictly constrain its height */
 main {
-    flex-grow: 1;
+    flex: 1;            /* Takes up remaining space between header and footer */
+    min-height: 0;      /* CRITICAL: Prevents the content from pushing the footer away */
     display: flex;
     align-items: center;
     margin: 2rem 0;
 }
 
+/* will now scroll internally */
 .script-box {
     width: 100%;
-    max-height: 250px;
-    overflow-y: auto;
+    height: 100%;       /* Fills the strictly constrained main container */
+    overflow-y: auto;   /* Enables scrolling only inside this box */
     padding-right: 10px;
 }
 
