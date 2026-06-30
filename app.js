@@ -9,8 +9,7 @@ let mediaRecorder = null;
 let audioChunks = [];
 let audioContext = null;
 
-// Hardcoded array of script files (since static GitHub Pages can't read folder contents natively)
-const scriptFiles = ['script1.txt', 'script2.txt', 'script3.txt'];
+// The file list is fetched dynamically.
 let currentScriptText = "";
 let originalWordsArray = [];
 
@@ -50,25 +49,59 @@ async function init() {
 }
 
 // ==========================================================================
-// 2. Script Management
+// 2. Automated Script Management (GitHub API Integration)
 // ==========================================================================
 async function loadRandomScript() {
     // Hide stats from previous run
     statsContainer.classList.add('hidden');
     
-    const randomIndex = Math.floor(Math.random() * scriptFiles.length);
-    const targetScript = scriptFiles[randomIndex];
-
     try {
-        const response = await fetch(`./scripts/${targetScript}`);
-        if (!response.ok) throw new Error("Script file not found");
+        // Automatically extract GitHub username and repository name from the browser URL
+        // Example URL: https://username.github.io/MonkeyRead/
+        const hostnameParts = window.location.hostname.split('.');
+        const username = hostnameParts[0]; 
+        const repoName = window.location.pathname.split('/')[1]; 
+
+        // Local Development Fallback: If running via VS Code Live Server (localhost/127.0.0.1)
+        if (username === 'localhost' || username === '127' || !repoName || username === '') {
+            console.log("Local development detected. Loading local fallback script.");
+            currentScriptText = "Welcome to local development mode. Please deploy this repository to GitHub Pages to enable fully automated dynamic script selection across your custom text files.";
+            displayScript(currentScriptText);
+            return;
+        }
+
+        // Query GitHub's public API for the contents of the 'scripts' directory
+        const apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents/scripts`;
+        const response = await fetch(apiUrl);
         
-        currentScriptText = await response.text();
+        if (!response.ok) {
+            throw new Error(`GitHub API failed to read the scripts directory. Status: ${response.status}`);
+        }
+        
+        const folderContents = await response.json();
+        
+        // Filter the contents to strictly include files ending in .txt
+        const txtFiles = folderContents.filter(file => file.name.endsWith('.txt') && file.type === 'file');
+        
+        if (txtFiles.length === 0) {
+            throw new Error("No .txt script files were found inside your repository's /scripts directory.");
+        }
+
+        // Pick an entirely random file object from the dynamic list
+        const randomFileObject = txtFiles[Math.floor(Math.random() * txtFiles.length)];
+        
+        // Fetch the raw text content using GitHub's absolute raw download URL
+        const scriptResponse = await fetch(randomFileObject.download_url);
+        if (!scriptResponse.ok) throw new Error("Failed to download the selected script text.");
+        
+        currentScriptText = await scriptResponse.text();
         displayScript(currentScriptText);
+
     } catch (error) {
-        console.error(error);
-        // Fallback script if text files aren't created yet
-        currentScriptText = "Hello team, I wanted to provide a quick update on our software implementation architecture. Let me know if you have any questions.";
+        console.error("Dynamic script selection error:", error);
+        
+        // Bulletproof fallback so your application interface never crashes for the end-user
+        currentScriptText = "Hello team, I wanted to provide a quick update on our software implementation architecture. We are currently testing our real-time synchronization pipelines. Let me know if you have any questions.";
         displayScript(currentScriptText);
     }
 }
