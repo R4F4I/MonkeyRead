@@ -1,0 +1,260 @@
+/* ==========================================================================
+   MonkeyRead Theme Variables (Inspired by Monkeytype Carbon/Dark)
+   ========================================================================== */
+:root {
+    --bg-color: #323437;
+    --main-color: #e2e2e3;
+    --caret-color: #e2e2e3;
+    --sub-color: #646669;
+    --sub-alt-color: #2c2e31;
+    --error-color: #ca4754;
+    --error-extra-color: #7e2a33;
+    --correct-color: #d1d0c5;
+    
+    --font-mono: 'Roboto Mono', monospace;
+    --transition-fast: 0.2s ease;
+}
+
+/* ==========================================================================
+   Global Resets & Setup
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--sub-color);
+    font-family: var(--font-mono);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ==========================================================================
+   Header Section
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.logo {
+    color: var(--main-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+    user-select: none;
+}
+
+.logo i {
+    color: var(--main-color);
+    margin-right: 0.5rem;
+}
+
+.status-badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    background-color: var(--sub-alt-color);
+    transition: var(--transition-fast);
+}
+
+.status-badge.loading { color: #e6c653; }
+.status-badge.ready { color: #a6e3a1; }
+.status-badge.recording { color: var(--error-color); animation: pulse 1.5s infinite; }
+
+/* ==========================================================================
+   Stats / Performance Section
+   ========================================================================== */
+.stats-container {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+    transition: opacity var(--transition-fast);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat .label {
+    font-size: 0.75rem;
+    color: var(--sub-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat .value {
+    font-size: 2rem;
+    color: var(--main-color);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Main Script/Reading Box (The Core UI)
+   ========================================================================== */
+main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.script-box {
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Custom minimal scrollbar for the script box */
+.script-box::-webkit-scrollbar {
+    width: 6px;
+}
+.script-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+.script-box::-webkit-scrollbar-thumb {
+    background: var(--sub-alt-color);
+    border-radius: 3px;
+}
+
+.words-container {
+    font-size: 1.75rem;
+    line-height: 2.2rem;
+    word-spacing: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    user-select: none;
+}
+
+/* Individual word states */
+.word {
+    color: var(--sub-color);
+    margin-right: 0.6rem;
+    margin-bottom: 0.5rem;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+    border-bottom: 2px solid transparent;
+}
+
+.word.active {
+    color: var(--main-color);
+    border-bottom: 2px solid var(--caret-color);
+}
+
+.word.correct {
+    color: var(--correct-color);
+}
+
+.word.incorrect {
+    color: var(--error-color);
+    border-bottom: 2px dashed var(--error-color);
+    cursor: pointer;
+}
+
+.word.incorrect:hover {
+    background-color: var(--error-extra-color);
+    color: #fff;
+    border-radius: 4px;
+    padding: 0 0.1rem;
+}
+
+/* ==========================================================================
+   Controls / Buttons
+   ========================================================================== */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--sub-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: var(--transition-fast);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-btn:hover:not(:disabled) {
+    color: var(--main-color);
+    background-color: var(--sub-alt-color);
+}
+
+.control-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#record-btn.recording-active {
+    color: var(--error-color);
+    background-color: var(--sub-alt-color);
+}
+
+/* ==========================================================================
+   Footer & Utilities
+   ========================================================================== */
+footer {
+    font-size: 0.85rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.instruction {
+    color: var(--main-color);
+}
+
+.hint {
+    color: var(--sub-color);
+    font-size: 0.75rem;
+}
+
+.key {
+    background-color: var(--sub-alt-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    color: var(--main-color);
+}
+
+.red-text {
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Keyframe Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
