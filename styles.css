@@ -35,12 +35,11 @@ body {
     overflow: hidden;
 }
 
-/* Update the container to use up to 95% of the screen height */
 .container {
     width: 100%;
     max-width: 1000px;
-    padding: 2rem;
-    height: 95vh; 
+    padding: 1rem 2rem; /* Changed from 2rem to 1rem for top/bottom */
+    height: 95vh;
     display: flex;
     flex-direction: column;
 }
@@ -85,7 +84,7 @@ header {
 .stats-container {
     display: flex;
     gap: 3rem;
-    margin-top: 2rem;
+    margin-top: 1rem; /* Reduced from 2rem */
     transition: opacity var(--transition-fast);
 }
 
@@ -112,11 +111,11 @@ header {
    ========================================================================== */
 /*  main will strictly constrain its height */
 main {
-    flex: 1;            /* Takes up remaining space between header and footer */
-    min-height: 0;      /* CRITICAL: Prevents the content from pushing the footer away */
+    flex: 1;            
+    min-height: 0;      
     display: flex;
-    align-items: center;
-    margin: 2rem 0;
+    align-items: flex-start; /* Changed from 'center' to 'flex-start' to snap text upwards */
+    margin: 1rem 0 2rem 0;   /* Reduced top margin to 1rem, kept bottom margin at 2rem */
 }
 
 /* will now scroll internally */
